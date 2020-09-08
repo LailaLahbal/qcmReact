@@ -4,6 +4,7 @@ import Home from './Home';
 import Qcm from './Qcm';
 import Nav from './Nav';
 import Genre from './Genre';
+import Auth from './Auth/Auth';
 import NotFound from './NotFound';
 import '../styles/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -31,6 +32,7 @@ class App extends React.Component {
             return <Genre id={parseInt(match.params.id)} />;
             return <NotFound />;
           }} />
+           <Route path="/auth" component={Auth} />
         </Router>
 
       </div>

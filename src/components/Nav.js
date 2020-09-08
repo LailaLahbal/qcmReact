@@ -20,9 +20,10 @@ class Nav extends React.Component{
         <nav className='navbar navbar-expand-lg navbar-light bg-light'>
          <ul className="navbar-nav mr-auto">
             <li><Link to={'/'} className="nav-link"> Home </Link></li>
-            <li><Link to={'/Qcm'} className="nav-link">Qcm</Link></li>
+            <li><Link to={'/qcm'} className="nav-link">Qcm</Link></li>
             <li><Link to={`/genre/1`} className="nav-link">Dev Front</Link></li>
             <li><Link to={`/genre/2`} className="nav-link">Dev Front</Link></li>
+            <li><Link to={'/auth'} className="nav-link">Login</Link></li>
     
           </ul>
       </nav>
