@@ -16,7 +16,7 @@ export default class Question extends React.Component{
   handleChange = (choice) => {
     //Chaque fois que on selectionne un choix, on enreigistre dans le state si c'est la bonne réponse ou pas.
     this.setState({
-      result : this.props.datas.qcm[this.props.currentQuestion].response === choice
+      result : this.props.datas[0].qcm[this.props.currentQuestion].response === choice
     })
   }
 
@@ -33,7 +33,7 @@ export default class Question extends React.Component{
 
   content = () => {
     //Un question a été selectionnée
-    const datas = this.props.datas.qcm[this.props.currentQuestion];
+    const datas = this.props.datas[0].qcm[this.props.currentQuestion];
     return(
         <React.Fragment>
           <h2>{datas.question}</h2>

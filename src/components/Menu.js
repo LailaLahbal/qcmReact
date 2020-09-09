@@ -7,7 +7,7 @@ export default (props) => {
       {
         
     
-        props.datas && props.datas.qcm.filter(elmt=> (props.genreId!=null)?elmt.genre_id===props.genreId:elmt.genre_id!==null).map(
+        props.datas && props.datas[0].qcm.filter(elmt=> (props.genreId!=null)?elmt.genre_id===props.genreId:elmt.genre_id!==null).map(
           (elmt,k) => {
             //Les attributs (props) sont écrites dans une object pour plus de clarté
             const attr = {

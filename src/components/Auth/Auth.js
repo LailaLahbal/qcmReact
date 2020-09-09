@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Input from "../Forms/Input";
 import { firebase as fb } from "../Config";
 import { verifEmail, verifPassword } from "../Utils/check";
+import { Redirect } from "react-router-dom";
 
 const initialState = {
   email: {
@@ -12,9 +13,7 @@ const initialState = {
     value: "",
     valid: false,
   },
-  registered: false,
-  message: "",
-  messageClass: "primary",
+ 
 };
 const controls = {
   email: {
@@ -40,27 +39,10 @@ class Auth extends Component {
   }
 
   componentDidMount() {
-    fb.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ registered: true });
-      }
-    });
+   
   }
 
-  handleLogout = () => {
-    fb.auth()
-      .signOut()
-      .then(() => {
-        this.setState({
-          registered: false,
-          message: "Vous êtes maintenant déconnecté.",
-          messageClass: "primary",
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+ 
 
   handleInputChange = (data) => {
     const name = data.name;
@@ -81,24 +63,19 @@ class Auth extends Component {
     console.log(email, "email", password, "password");
 
     // vérification du couple login/password
-    fb.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        console.log(user);
-        this.setState({
-          registered: true,
-          message: "Vous êtes maintenant connecté",
-          messageClass: "success",
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          registered: false,
-          message: "Identifiants incorrects",
-          messageClass: "danger",
-        });
-      });
+    this.props.login(email, password);
+ 
+  };
+
+  handleSubmitLogout = (e) => {
+    // pour l'instant on empêche l'envoi de requête vers le serveur
+    e.preventDefault();
+
+    
+
+    // vérification du couple login/password
+    this.props.logout();
+ 
   };
   render() {
     const isValid = this.state.email.valid && this.state.password.valid;
@@ -130,20 +107,14 @@ class Auth extends Component {
         </button>
       </form>
     );
+
+    
     return (
       <div className='container'>
-        {this.state.message !== "" && (
-          <div className={`alert alert-${this.state.messageClass}`}>
-            {this.state.message}
-          </div>
-        )}
-        {this.state.registered ? (
-          <button className='btn btn-warning' onClick={this.handleLogout}>
-            Logout
-          </button>
-        ) : (
-          authForm
-        )}
+         <div className='container'>
+        {this.props.registered ? <Redirect to ='/' />:  authForm}
+      </div>
+
       </div>
     );
   }

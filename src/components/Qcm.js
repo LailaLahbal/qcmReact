@@ -5,6 +5,8 @@ import Menu from './Menu';
 import Question from './Question';
 import '../styles/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
+import { firebase, database } from './Config';
+
 
 
 class Qcm extends React.Component{
@@ -39,9 +41,9 @@ class Qcm extends React.Component{
     //Appelée lorsqu'un formulaire de question est envoyé, récupère l'index et le resultat (fail ou success)
     const newDatas = {...this.state.datas};
     //Update du status de la question dans les datas
-    newDatas.qcm[questionIndex].status = result ? "success" : "fail";
+    newDatas[0].qcm[questionIndex].status = result ? "success" : "fail";
 
-    const openQuestions = newDatas.qcm.filter(elmt => elmt.status === 'open');
+    const openQuestions = newDatas[0].qcm.filter(elmt => elmt.status === 'open');
     //Le nombre question ayant un status open est 0 : c'est la fin
     //On met a jour les datas dans le state (pour les nouveaux status des questions)
     if(openQuestions.length === 0){
@@ -61,7 +63,7 @@ class Qcm extends React.Component{
   showEnd = () => {
     //Affiche l'écran de fin
     //On récupère nombre de questions ayant un status success
-    const good = this.state.datas.qcm.filter(elmt => elmt.status === 'success')
+    const good = this.state.datas[0].qcm.filter(elmt => elmt.status === 'success')
 
 
     return(
@@ -97,15 +99,18 @@ class Qcm extends React.Component{
 
   componentDidMount(){
     //On mount on va chercher les datas
-    fetch('/datas/qcm.json')
+
+    database.ref('list').on('value', snap => {
+      console.log( snap.val() )
+      this.setState({ datas: snap.val() })
+      });
+    /*fetch('/datas/qcm.json')
     .then(resp => {return(resp.json())})
     .then(datas => {
-    // datas.qcm.filter(elmt => console.log(elmt),elmt.genre_id=== this.props.id)
-  
       this.setState({
         datas:datas
       })
-    })
+    })*/
   }
 
   
